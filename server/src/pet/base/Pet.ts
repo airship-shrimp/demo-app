@@ -23,7 +23,7 @@ class Pet {
   age!: string;
 
   @ApiProperty({
-    required: true,
+    required: false,
     type: Boolean,
   })
   @IsBoolean()
@@ -31,7 +31,7 @@ class Pet {
   @Field(() => Boolean, {
     nullable: true,
   })
-  gender!: boolean;
+  gender!: boolean | null;
 
   @ApiProperty({
     required: true,

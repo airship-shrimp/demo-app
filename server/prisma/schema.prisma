@@ -29,3 +29,9 @@ model Pet {
   id     String   @id @default(cuid())
   name   String   @unique
 }
+
+model Todo {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  updatedAt DateTime @updatedAt
+}

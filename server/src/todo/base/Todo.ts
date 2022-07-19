@@ -11,11 +11,18 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsJSON, IsOptional } from "class-validator";
-import { GraphQLJSONObject } from "graphql-type-json";
-import { JsonValue } from "type-fest";
+import { IsDate, IsString } from "class-validator";
+import { Type } from "class-transformer";
 @ObjectType()
-class Book {
+class Todo {
+  @ApiProperty({
+    required: true,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @Field(() => Date)
+  createdAt!: Date;
+
   @ApiProperty({
     required: true,
     type: String,
@@ -25,24 +32,11 @@ class Book {
   id!: string;
 
   @ApiProperty({
-    required: false,
+    required: true,
   })
-  @IsJSON()
-  @IsOptional()
-  @Field(() => GraphQLJSONObject, {
-    nullable: true,
-  })
-  name!: JsonValue;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  xxx!: string | null;
+  @IsDate()
+  @Type(() => Date)
+  @Field(() => Date)
+  updatedAt!: Date;
 }
-export { Book };
+export { Todo };

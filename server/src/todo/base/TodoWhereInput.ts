@@ -11,39 +11,20 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { SortOrder } from "../../util/SortOrder";
-
-@InputType({
-  isAbstract: true,
-  description: undefined,
-})
-class BookOrderByInput {
+import { StringFilter } from "../../util/StringFilter";
+import { Type } from "class-transformer";
+import { IsOptional } from "class-validator";
+@InputType()
+class TodoWhereInput {
   @ApiProperty({
     required: false,
-    enum: ["asc", "desc"],
+    type: StringFilter,
   })
-  @Field(() => SortOrder, {
+  @Type(() => StringFilter)
+  @IsOptional()
+  @Field(() => StringFilter, {
     nullable: true,
   })
-  id?: SortOrder;
-
-  @ApiProperty({
-    required: false,
-    enum: ["asc", "desc"],
-  })
-  @Field(() => SortOrder, {
-    nullable: true,
-  })
-  name?: SortOrder;
-
-  @ApiProperty({
-    required: false,
-    enum: ["asc", "desc"],
-  })
-  @Field(() => SortOrder, {
-    nullable: true,
-  })
-  xxx?: SortOrder;
+  id?: StringFilter;
 }
-
-export { BookOrderByInput };
+export { TodoWhereInput };

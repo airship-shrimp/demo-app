@@ -5,28 +5,32 @@ import { MorganModule } from "nest-morgan";
 import { ACGuard } from "nest-access-control";
 import { DefaultAuthGuard } from "../../auth/defaultAuth.guard";
 import { ACLModule } from "../../auth/acl.module";
-import { BookController } from "../book.controller";
-import { BookService } from "../book.service";
+import { TodoController } from "../todo.controller";
+import { TodoService } from "../todo.service";
 
 const nonExistingId = "nonExistingId";
 const existingId = "existingId";
 const CREATE_INPUT = {
+  createdAt: new Date(),
   id: "exampleId",
-  xxx: "exampleXxx",
+  updatedAt: new Date(),
 };
 const CREATE_RESULT = {
+  createdAt: new Date(),
   id: "exampleId",
-  xxx: "exampleXxx",
+  updatedAt: new Date(),
 };
 const FIND_MANY_RESULT = [
   {
+    createdAt: new Date(),
     id: "exampleId",
-    xxx: "exampleXxx",
+    updatedAt: new Date(),
   },
 ];
 const FIND_ONE_RESULT = {
+  createdAt: new Date(),
   id: "exampleId",
-  xxx: "exampleXxx",
+  updatedAt: new Date(),
 };
 
 const service = {
@@ -61,18 +65,18 @@ const acGuard = {
   },
 };
 
-describe("Book", () => {
+describe("Todo", () => {
   let app: INestApplication;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         {
-          provide: BookService,
+          provide: TodoService,
           useValue: service,
         },
       ],
-      controllers: [BookController],
+      controllers: [TodoController],
       imports: [MorganModule.forRoot(), ACLModule],
     })
       .overrideGuard(DefaultAuthGuard)
@@ -85,24 +89,34 @@ describe("Book", () => {
     await app.init();
   });
 
-  test("POST /books", async () => {
+  test("POST /todos", async () => {
     await request(app.getHttpServer())
-      .post("/books")
+      .post("/todos")
       .send(CREATE_INPUT)
       .expect(HttpStatus.CREATED)
-      .expect(CREATE_RESULT);
+      .expect({
+        ...CREATE_RESULT,
+        createdAt: CREATE_RESULT.createdAt.toISOString(),
+        updatedAt: CREATE_RESULT.updatedAt.toISOString(),
+      });
   });
 
-  test("GET /books", async () => {
+  test("GET /todos", async () => {
     await request(app.getHttpServer())
-      .get("/books")
+      .get("/todos")
       .expect(HttpStatus.OK)
-      .expect([FIND_MANY_RESULT[0]]);
+      .expect([
+        {
+          ...FIND_MANY_RESULT[0],
+          createdAt: FIND_MANY_RESULT[0].createdAt.toISOString(),
+          updatedAt: FIND_MANY_RESULT[0].updatedAt.toISOString(),
+        },
+      ]);
   });
 
-  test("GET /books/:id non existing", async () => {
+  test("GET /todos/:id non existing", async () => {
     await request(app.getHttpServer())
-      .get(`${"/books"}/${nonExistingId}`)
+      .get(`${"/todos"}/${nonExistingId}`)
       .expect(HttpStatus.NOT_FOUND)
       .expect({
         statusCode: HttpStatus.NOT_FOUND,
@@ -111,11 +125,15 @@ describe("Book", () => {
       });
   });
 
-  test("GET /books/:id existing", async () => {
+  test("GET /todos/:id existing", async () => {
     await request(app.getHttpServer())
-      .get(`${"/books"}/${existingId}`)
+      .get(`${"/todos"}/${existingId}`)
       .expect(HttpStatus.OK)
-      .expect(FIND_ONE_RESULT);
+      .expect({
+        ...FIND_ONE_RESULT,
+        createdAt: FIND_ONE_RESULT.createdAt.toISOString(),
+        updatedAt: FIND_ONE_RESULT.updatedAt.toISOString(),
+      });
   });
 
   afterAll(async () => {

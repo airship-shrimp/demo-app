@@ -11,39 +11,46 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { SortOrder } from "../../util/SortOrder";
+import { TodoWhereInput } from "./TodoWhereInput";
+import { ValidateNested, IsOptional } from "class-validator";
+import { Type } from "class-transformer";
 
-@InputType({
-  isAbstract: true,
-  description: undefined,
-})
-class BookOrderByInput {
+@InputType()
+class TodoListRelationFilter {
   @ApiProperty({
     required: false,
-    enum: ["asc", "desc"],
+    type: () => TodoWhereInput,
   })
-  @Field(() => SortOrder, {
+  @ValidateNested()
+  @Type(() => TodoWhereInput)
+  @IsOptional()
+  @Field(() => TodoWhereInput, {
     nullable: true,
   })
-  id?: SortOrder;
-
-  @ApiProperty({
-    required: false,
-    enum: ["asc", "desc"],
-  })
-  @Field(() => SortOrder, {
-    nullable: true,
-  })
-  name?: SortOrder;
+  every?: TodoWhereInput;
 
   @ApiProperty({
     required: false,
-    enum: ["asc", "desc"],
+    type: () => TodoWhereInput,
   })
-  @Field(() => SortOrder, {
+  @ValidateNested()
+  @Type(() => TodoWhereInput)
+  @IsOptional()
+  @Field(() => TodoWhereInput, {
     nullable: true,
   })
-  xxx?: SortOrder;
+  some?: TodoWhereInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => TodoWhereInput,
+  })
+  @ValidateNested()
+  @Type(() => TodoWhereInput)
+  @IsOptional()
+  @Field(() => TodoWhereInput, {
+    nullable: true,
+  })
+  none?: TodoWhereInput;
 }
-
-export { BookOrderByInput };
+export { TodoListRelationFilter };

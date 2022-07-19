@@ -17,6 +17,10 @@ import { PetList } from "./pet/PetList";
 import { PetCreate } from "./pet/PetCreate";
 import { PetEdit } from "./pet/PetEdit";
 import { PetShow } from "./pet/PetShow";
+import { TodoList } from "./todo/TodoList";
+import { TodoCreate } from "./todo/TodoCreate";
+import { TodoEdit } from "./todo/TodoEdit";
+import { TodoShow } from "./todo/TodoShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -63,6 +67,13 @@ const App = (): React.ReactElement => {
           edit={PetEdit}
           create={PetCreate}
           show={PetShow}
+        />
+        <Resource
+          name="Todo"
+          list={TodoList}
+          edit={TodoEdit}
+          create={TodoCreate}
+          show={TodoShow}
         />
       </Admin>
     </div>

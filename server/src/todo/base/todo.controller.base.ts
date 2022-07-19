@@ -18,84 +18,84 @@ import * as errors from "../../errors";
 import { Request } from "express";
 import { plainToClass } from "class-transformer";
 import { ApiNestedQuery } from "../../decorators/api-nested-query.decorator";
-import { BookService } from "../book.service";
+import { TodoService } from "../todo.service";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
-import { BookCreateInput } from "./BookCreateInput";
-import { BookWhereInput } from "./BookWhereInput";
-import { BookWhereUniqueInput } from "./BookWhereUniqueInput";
-import { BookFindManyArgs } from "./BookFindManyArgs";
-import { BookUpdateInput } from "./BookUpdateInput";
-import { Book } from "./Book";
+import { TodoCreateInput } from "./TodoCreateInput";
+import { TodoWhereInput } from "./TodoWhereInput";
+import { TodoWhereUniqueInput } from "./TodoWhereUniqueInput";
+import { TodoFindManyArgs } from "./TodoFindManyArgs";
+import { TodoUpdateInput } from "./TodoUpdateInput";
+import { Todo } from "./Todo";
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
-export class BookControllerBase {
+export class TodoControllerBase {
   constructor(
-    protected readonly service: BookService,
+    protected readonly service: TodoService,
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {}
 
   @common.UseInterceptors(AclValidateRequestInterceptor)
   @nestAccessControl.UseRoles({
-    resource: "Book",
+    resource: "Todo",
     action: "create",
     possession: "any",
   })
   @common.Post()
-  @swagger.ApiCreatedResponse({ type: Book })
+  @swagger.ApiCreatedResponse({ type: Todo })
   @swagger.ApiForbiddenResponse({ type: errors.ForbiddenException })
-  async create(@common.Body() data: BookCreateInput): Promise<Book> {
+  async create(@common.Body() data: TodoCreateInput): Promise<Todo> {
     return await this.service.create({
       data: data,
       select: {
+        createdAt: true,
         id: true,
-        name: true,
-        xxx: true,
+        updatedAt: true,
       },
     });
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
   @nestAccessControl.UseRoles({
-    resource: "Book",
+    resource: "Todo",
     action: "read",
     possession: "any",
   })
   @common.Get()
-  @swagger.ApiOkResponse({ type: [Book] })
+  @swagger.ApiOkResponse({ type: [Todo] })
   @swagger.ApiForbiddenResponse()
-  @ApiNestedQuery(BookFindManyArgs)
-  async findMany(@common.Req() request: Request): Promise<Book[]> {
-    const args = plainToClass(BookFindManyArgs, request.query);
+  @ApiNestedQuery(TodoFindManyArgs)
+  async findMany(@common.Req() request: Request): Promise<Todo[]> {
+    const args = plainToClass(TodoFindManyArgs, request.query);
     return this.service.findMany({
       ...args,
       select: {
+        createdAt: true,
         id: true,
-        name: true,
-        xxx: true,
+        updatedAt: true,
       },
     });
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
   @nestAccessControl.UseRoles({
-    resource: "Book",
+    resource: "Todo",
     action: "read",
     possession: "own",
   })
   @common.Get("/:id")
-  @swagger.ApiOkResponse({ type: Book })
+  @swagger.ApiOkResponse({ type: Todo })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
   @swagger.ApiForbiddenResponse({ type: errors.ForbiddenException })
   async findOne(
-    @common.Param() params: BookWhereUniqueInput
-  ): Promise<Book | null> {
+    @common.Param() params: TodoWhereUniqueInput
+  ): Promise<Todo | null> {
     const result = await this.service.findOne({
       where: params,
       select: {
+        createdAt: true,
         id: true,
-        name: true,
-        xxx: true,
+        updatedAt: true,
       },
     });
     if (result === null) {
@@ -108,26 +108,26 @@ export class BookControllerBase {
 
   @common.UseInterceptors(AclValidateRequestInterceptor)
   @nestAccessControl.UseRoles({
-    resource: "Book",
+    resource: "Todo",
     action: "update",
     possession: "any",
   })
   @common.Patch("/:id")
-  @swagger.ApiOkResponse({ type: Book })
+  @swagger.ApiOkResponse({ type: Todo })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
   @swagger.ApiForbiddenResponse({ type: errors.ForbiddenException })
   async update(
-    @common.Param() params: BookWhereUniqueInput,
-    @common.Body() data: BookUpdateInput
-  ): Promise<Book | null> {
+    @common.Param() params: TodoWhereUniqueInput,
+    @common.Body() data: TodoUpdateInput
+  ): Promise<Todo | null> {
     try {
       return await this.service.update({
         where: params,
         data: data,
         select: {
+          createdAt: true,
           id: true,
-          name: true,
-          xxx: true,
+          updatedAt: true,
         },
       });
     } catch (error) {
@@ -141,24 +141,24 @@ export class BookControllerBase {
   }
 
   @nestAccessControl.UseRoles({
-    resource: "Book",
+    resource: "Todo",
     action: "delete",
     possession: "any",
   })
   @common.Delete("/:id")
-  @swagger.ApiOkResponse({ type: Book })
+  @swagger.ApiOkResponse({ type: Todo })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
   @swagger.ApiForbiddenResponse({ type: errors.ForbiddenException })
   async delete(
-    @common.Param() params: BookWhereUniqueInput
-  ): Promise<Book | null> {
+    @common.Param() params: TodoWhereUniqueInput
+  ): Promise<Todo | null> {
     try {
       return await this.service.delete({
         where: params,
         select: {
+          createdAt: true,
           id: true,
-          name: true,
-          xxx: true,
+          updatedAt: true,
         },
       });
     } catch (error) {

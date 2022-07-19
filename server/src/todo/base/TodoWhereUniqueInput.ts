@@ -11,30 +11,15 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsJSON, IsOptional, IsString } from "class-validator";
-import { GraphQLJSONObject } from "graphql-type-json";
-import { InputJsonValue } from "../../types";
+import { IsString } from "class-validator";
 @InputType()
-class BookCreateInput {
+class TodoWhereUniqueInput {
   @ApiProperty({
-    required: false,
-  })
-  @IsJSON()
-  @IsOptional()
-  @Field(() => GraphQLJSONObject, {
-    nullable: true,
-  })
-  name?: InputJsonValue;
-
-  @ApiProperty({
-    required: false,
+    required: true,
     type: String,
   })
   @IsString()
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  xxx?: string | null;
+  @Field(() => String)
+  id!: string;
 }
-export { BookCreateInput };
+export { TodoWhereUniqueInput };

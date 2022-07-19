@@ -9,40 +9,41 @@ https://docs.amplication.com/docs/how-to/custom-code
 
 ------------------------------------------------------------------------------
   */
-import { ObjectType, Field } from "@nestjs/graphql";
+import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsJSON, IsOptional } from "class-validator";
-import { GraphQLJSONObject } from "graphql-type-json";
-import { JsonValue } from "type-fest";
-@ObjectType()
-class Book {
+import { SortOrder } from "../../util/SortOrder";
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+class TodoOrderByInput {
   @ApiProperty({
-    required: true,
-    type: String,
+    required: false,
+    enum: ["asc", "desc"],
   })
-  @IsString()
-  @Field(() => String)
-  id!: string;
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
+  createdAt?: SortOrder;
 
   @ApiProperty({
     required: false,
+    enum: ["asc", "desc"],
   })
-  @IsJSON()
-  @IsOptional()
-  @Field(() => GraphQLJSONObject, {
+  @Field(() => SortOrder, {
     nullable: true,
   })
-  name!: JsonValue;
+  id?: SortOrder;
 
   @ApiProperty({
     required: false,
-    type: String,
+    enum: ["asc", "desc"],
   })
-  @IsString()
-  @IsOptional()
-  @Field(() => String, {
+  @Field(() => SortOrder, {
     nullable: true,
   })
-  xxx!: string | null;
+  updatedAt?: SortOrder;
 }
-export { Book };
+
+export { TodoOrderByInput };

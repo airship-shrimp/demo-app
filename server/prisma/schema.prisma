@@ -19,8 +19,10 @@ model User {
 }
 
 model Book {
-  id   String @id @default(cuid())
-  name Json?
+  id    String  @id @default(cuid())
+  name  Json?
+  xxx   String?
+  xxxxx String?
 }
 
 model Pet {
@@ -28,4 +30,10 @@ model Pet {
   gender Boolean?
   id     String   @id @default(cuid())
   name   String   @unique
+}
+
+model Todo {
+  createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  updatedAt DateTime @updatedAt
 }

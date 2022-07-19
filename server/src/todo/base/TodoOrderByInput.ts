@@ -11,43 +11,39 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { StringFilter } from "../../util/StringFilter";
-import { Type } from "class-transformer";
-import { IsOptional } from "class-validator";
-import { StringNullableFilter } from "../../util/StringNullableFilter";
-@InputType()
-class BookWhereInput {
+import { SortOrder } from "../../util/SortOrder";
+
+@InputType({
+  isAbstract: true,
+  description: undefined,
+})
+class TodoOrderByInput {
   @ApiProperty({
     required: false,
-    type: StringFilter,
+    enum: ["asc", "desc"],
   })
-  @Type(() => StringFilter)
-  @IsOptional()
-  @Field(() => StringFilter, {
+  @Field(() => SortOrder, {
     nullable: true,
   })
-  id?: StringFilter;
+  createdAt?: SortOrder;
 
   @ApiProperty({
     required: false,
-    type: StringNullableFilter,
+    enum: ["asc", "desc"],
   })
-  @Type(() => StringNullableFilter)
-  @IsOptional()
-  @Field(() => StringNullableFilter, {
+  @Field(() => SortOrder, {
     nullable: true,
   })
-  xxx?: StringNullableFilter;
+  id?: SortOrder;
 
   @ApiProperty({
     required: false,
-    type: StringNullableFilter,
+    enum: ["asc", "desc"],
   })
-  @Type(() => StringNullableFilter)
-  @IsOptional()
-  @Field(() => StringNullableFilter, {
+  @Field(() => SortOrder, {
     nullable: true,
   })
-  xxxxx?: StringNullableFilter;
+  updatedAt?: SortOrder;
 }
-export { BookWhereInput };
+
+export { TodoOrderByInput };

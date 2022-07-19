@@ -7,6 +7,8 @@ export const BookShow = (props: ShowProps): React.ReactElement => {
       <SimpleShowLayout>
         <TextField label="ID" source="id" />
         <TextField label="name" source="name" />
+        <TextField label="xxx" source="xxx" />
+        <TextField label="xxxxx" source="xxxxx" />
       </SimpleShowLayout>
     </Show>
   );

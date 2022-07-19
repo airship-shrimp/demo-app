@@ -4,6 +4,7 @@ import { MorganInterceptor, MorganModule } from "nest-morgan";
 import { UserModule } from "./user/user.module";
 import { BookModule } from "./book/book.module";
 import { PetModule } from "./pet/pet.module";
+import { TodoModule } from "./todo/todo.module";
 import { ACLModule } from "./auth/acl.module";
 import { AuthModule } from "./auth/auth.module";
 import { HealthModule } from "./health/health.module";
@@ -19,6 +20,7 @@ import { GraphQLModule } from "@nestjs/graphql";
     UserModule,
     BookModule,
     PetModule,
+    TodoModule,
     ACLModule,
     AuthModule,
     HealthModule,

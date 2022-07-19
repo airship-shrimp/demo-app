@@ -11,43 +11,46 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { StringFilter } from "../../util/StringFilter";
+import { TodoWhereInput } from "./TodoWhereInput";
+import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
-import { IsOptional } from "class-validator";
-import { StringNullableFilter } from "../../util/StringNullableFilter";
+
 @InputType()
-class BookWhereInput {
+class TodoListRelationFilter {
   @ApiProperty({
     required: false,
-    type: StringFilter,
+    type: () => TodoWhereInput,
   })
-  @Type(() => StringFilter)
+  @ValidateNested()
+  @Type(() => TodoWhereInput)
   @IsOptional()
-  @Field(() => StringFilter, {
+  @Field(() => TodoWhereInput, {
     nullable: true,
   })
-  id?: StringFilter;
+  every?: TodoWhereInput;
 
   @ApiProperty({
     required: false,
-    type: StringNullableFilter,
+    type: () => TodoWhereInput,
   })
-  @Type(() => StringNullableFilter)
+  @ValidateNested()
+  @Type(() => TodoWhereInput)
   @IsOptional()
-  @Field(() => StringNullableFilter, {
+  @Field(() => TodoWhereInput, {
     nullable: true,
   })
-  xxx?: StringNullableFilter;
+  some?: TodoWhereInput;
 
   @ApiProperty({
     required: false,
-    type: StringNullableFilter,
+    type: () => TodoWhereInput,
   })
-  @Type(() => StringNullableFilter)
+  @ValidateNested()
+  @Type(() => TodoWhereInput)
   @IsOptional()
-  @Field(() => StringNullableFilter, {
+  @Field(() => TodoWhereInput, {
     nullable: true,
   })
-  xxxxx?: StringNullableFilter;
+  none?: TodoWhereInput;
 }
-export { BookWhereInput };
+export { TodoListRelationFilter };

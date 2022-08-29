@@ -1,5 +1,13 @@
 import * as React from "react";
-import { Create, SimpleForm, CreateProps, TextInput } from "react-admin";
+import {
+  Create,
+  SimpleForm,
+  CreateProps,
+  TextInput,
+  ReferenceInput,
+  SelectInput,
+} from "react-admin";
+import { UserTitle } from "../user/UserTitle";
 
 export const BookCreate = (props: CreateProps): React.ReactElement => {
   return (
@@ -7,7 +15,9 @@ export const BookCreate = (props: CreateProps): React.ReactElement => {
       <SimpleForm>
         <div />
         <TextInput label="xxx" source="xxx" />
-        <TextInput label="xxxxx" source="xxxxx" />
+        <ReferenceInput source="user.id" reference="User" label="xxxxx">
+          <SelectInput optionText={UserTitle} />
+        </ReferenceInput>
       </SimpleForm>
     </Create>
   );

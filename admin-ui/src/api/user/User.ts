@@ -1,4 +1,7 @@
+import { Book } from "../book/Book";
+
 export type User = {
+  books?: Array<Book>;
   createdAt: Date;
   firstName: string | null;
   id: string;

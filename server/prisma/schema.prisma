@@ -8,6 +8,7 @@ generator client {
 }
 
 model User {
+  books     Book[]
   createdAt DateTime @default(now())
   firstName String?
   id        String   @id @default(cuid())
@@ -19,10 +20,11 @@ model User {
 }
 
 model Book {
-  id    String  @id @default(cuid())
-  name  Json?
-  xxx   String?
-  xxxxx String?
+  id      String  @id @default(cuid())
+  name    Json?
+  xxx     String?
+  xxxxx   User?   @relation(fields: [xxxxxId], references: [id])
+  xxxxxId String?
 }
 
 model Pet {

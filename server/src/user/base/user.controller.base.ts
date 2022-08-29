@@ -27,6 +27,9 @@ import { UserWhereUniqueInput } from "./UserWhereUniqueInput";
 import { UserFindManyArgs } from "./UserFindManyArgs";
 import { UserUpdateInput } from "./UserUpdateInput";
 import { User } from "./User";
+import { BookFindManyArgs } from "../../book/base/BookFindManyArgs";
+import { Book } from "../../book/base/Book";
+import { BookWhereUniqueInput } from "../../book/base/BookWhereUniqueInput";
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
 export class UserControllerBase {
@@ -189,5 +192,106 @@ export class UserControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @nestAccessControl.UseRoles({
+    resource: "Book",
+    action: "read",
+    possession: "any",
+  })
+  @common.Get("/:id/books")
+  @ApiNestedQuery(BookFindManyArgs)
+  async findManyBooks(
+    @common.Req() request: Request,
+    @common.Param() params: UserWhereUniqueInput
+  ): Promise<Book[]> {
+    const query = plainToClass(BookFindManyArgs, request.query);
+    const results = await this.service.findBooks(params.id, {
+      ...query,
+      select: {
+        id: true,
+        name: true,
+        xxx: true,
+
+        xxxxx: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "update",
+    possession: "any",
+  })
+  @common.Post("/:id/books")
+  async connectBooks(
+    @common.Param() params: UserWhereUniqueInput,
+    @common.Body() body: BookWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      books: {
+        connect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "update",
+    possession: "any",
+  })
+  @common.Patch("/:id/books")
+  async updateBooks(
+    @common.Param() params: UserWhereUniqueInput,
+    @common.Body() body: BookWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      books: {
+        set: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "update",
+    possession: "any",
+  })
+  @common.Delete("/:id/books")
+  async disconnectBooks(
+    @common.Param() params: UserWhereUniqueInput,
+    @common.Body() body: BookWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      books: {
+        disconnect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 }

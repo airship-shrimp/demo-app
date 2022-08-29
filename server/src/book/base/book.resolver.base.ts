@@ -25,6 +25,7 @@ import { DeleteBookArgs } from "./DeleteBookArgs";
 import { BookFindManyArgs } from "./BookFindManyArgs";
 import { BookFindUniqueArgs } from "./BookFindUniqueArgs";
 import { Book } from "./Book";
+import { User } from "../../user/base/User";
 import { BookService } from "../book.service";
 
 @graphql.Resolver(() => Book)
@@ -90,7 +91,15 @@ export class BookResolverBase {
   async createBook(@graphql.Args() args: CreateBookArgs): Promise<Book> {
     return await this.service.create({
       ...args,
-      data: args.data,
+      data: {
+        ...args.data,
+
+        xxxxx: args.data.xxxxx
+          ? {
+              connect: args.data.xxxxx,
+            }
+          : undefined,
+      },
     });
   }
 
@@ -105,7 +114,15 @@ export class BookResolverBase {
     try {
       return await this.service.update({
         ...args,
-        data: args.data,
+        data: {
+          ...args.data,
+
+          xxxxx: args.data.xxxxx
+            ? {
+                connect: args.data.xxxxx,
+              }
+            : undefined,
+        },
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
@@ -134,5 +151,21 @@ export class BookResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => User, { nullable: true })
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "read",
+    possession: "any",
+  })
+  async xxxxx(@graphql.Parent() parent: Book): Promise<User | null> {
+    const result = await this.service.getXxxxx(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

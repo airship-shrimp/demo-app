@@ -10,49 +10,35 @@ https://docs.amplication.com/docs/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { InputType, Field } from "@nestjs/graphql";
+import { BookWhereUniqueInput } from "../../book/base/BookWhereUniqueInput";
 import { ApiProperty } from "@nestjs/swagger";
-import { SortOrder } from "../../util/SortOrder";
-
-@InputType({
-  isAbstract: true,
-  description: undefined,
-})
-class BookOrderByInput {
-  @ApiProperty({
-    required: false,
-    enum: ["asc", "desc"],
-  })
-  @Field(() => SortOrder, {
+@InputType()
+class BookUpdateManyWithoutUsersInput {
+  @Field(() => [BookWhereUniqueInput], {
     nullable: true,
   })
-  id?: SortOrder;
-
   @ApiProperty({
     required: false,
-    enum: ["asc", "desc"],
+    type: () => [BookWhereUniqueInput],
   })
-  @Field(() => SortOrder, {
+  connect?: Array<BookWhereUniqueInput>;
+
+  @Field(() => [BookWhereUniqueInput], {
     nullable: true,
   })
-  name?: SortOrder;
-
   @ApiProperty({
     required: false,
-    enum: ["asc", "desc"],
+    type: () => [BookWhereUniqueInput],
   })
-  @Field(() => SortOrder, {
+  disconnect?: Array<BookWhereUniqueInput>;
+
+  @Field(() => [BookWhereUniqueInput], {
     nullable: true,
   })
-  xxx?: SortOrder;
-
   @ApiProperty({
     required: false,
-    enum: ["asc", "desc"],
+    type: () => [BookWhereUniqueInput],
   })
-  @Field(() => SortOrder, {
-    nullable: true,
-  })
-  xxxxxId?: SortOrder;
+  set?: Array<BookWhereUniqueInput>;
 }
-
-export { BookOrderByInput };
+export { BookUpdateManyWithoutUsersInput };

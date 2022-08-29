@@ -10,7 +10,7 @@ https://docs.amplication.com/docs/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "nestjs-prisma";
-import { Prisma, Book } from "@prisma/client";
+import { Prisma, Book, User } from "@prisma/client";
 
 export class BookServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -45,5 +45,13 @@ export class BookServiceBase {
     args: Prisma.SelectSubset<T, Prisma.BookDeleteArgs>
   ): Promise<Book> {
     return this.prisma.book.delete(args);
+  }
+
+  async getXxxxx(parentId: string): Promise<User | null> {
+    return this.prisma.book
+      .findUnique({
+        where: { id: parentId },
+      })
+      .xxxxx();
   }
 }

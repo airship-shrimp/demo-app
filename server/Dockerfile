@@ -1,11 +1,5 @@
-ARG ALPINE_VERSION=alpine3.14
-ARG NODE_VERSION=16.13.1
+FROM node:16-alpine AS base
 
-# Use node as the base image
-FROM node:$NODE_VERSION-$ALPINE_VERSION AS base
-
-# Define how verbose should npm install be
-ARG NPM_LOG_LEVEL=silent
 # Hide Open Collective message from install logs
 ENV OPENCOLLECTIVE_HIDE=1
 # Hiden NPM security message from install logs

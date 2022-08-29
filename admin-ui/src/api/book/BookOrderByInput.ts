@@ -4,5 +4,5 @@ export type BookOrderByInput = {
   id?: SortOrder;
   name?: SortOrder;
   xxx?: SortOrder;
-  xxxxx?: SortOrder;
+  xxxxxId?: SortOrder;
 };

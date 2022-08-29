@@ -11,9 +11,11 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsJSON, IsOptional, IsString } from "class-validator";
+import { IsJSON, IsOptional, IsString, ValidateNested } from "class-validator";
 import { GraphQLJSONObject } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
+import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
+import { Type } from "class-transformer";
 @InputType()
 class BookCreateInput {
   @ApiProperty({
@@ -39,13 +41,14 @@ class BookCreateInput {
 
   @ApiProperty({
     required: false,
-    type: String,
+    type: () => UserWhereUniqueInput,
   })
-  @IsString()
+  @ValidateNested()
+  @Type(() => UserWhereUniqueInput)
   @IsOptional()
-  @Field(() => String, {
+  @Field(() => UserWhereUniqueInput, {
     nullable: true,
   })
-  xxxxx?: string | null;
+  xxxxx?: UserWhereUniqueInput | null;
 }
 export { BookCreateInput };

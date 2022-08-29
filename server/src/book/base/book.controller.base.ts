@@ -46,12 +46,25 @@ export class BookControllerBase {
   @swagger.ApiForbiddenResponse({ type: errors.ForbiddenException })
   async create(@common.Body() data: BookCreateInput): Promise<Book> {
     return await this.service.create({
-      data: data,
+      data: {
+        ...data,
+
+        xxxxx: data.xxxxx
+          ? {
+              connect: data.xxxxx,
+            }
+          : undefined,
+      },
       select: {
         id: true,
         name: true,
         xxx: true,
-        xxxxx: true,
+
+        xxxxx: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
   }
@@ -74,7 +87,12 @@ export class BookControllerBase {
         id: true,
         name: true,
         xxx: true,
-        xxxxx: true,
+
+        xxxxx: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
   }
@@ -98,7 +116,12 @@ export class BookControllerBase {
         id: true,
         name: true,
         xxx: true,
-        xxxxx: true,
+
+        xxxxx: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
     if (result === null) {
@@ -126,12 +149,25 @@ export class BookControllerBase {
     try {
       return await this.service.update({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          xxxxx: data.xxxxx
+            ? {
+                connect: data.xxxxx,
+              }
+            : undefined,
+        },
         select: {
           id: true,
           name: true,
           xxx: true,
-          xxxxx: true,
+
+          xxxxx: {
+            select: {
+              id: true,
+            },
+          },
         },
       });
     } catch (error) {
@@ -163,7 +199,12 @@ export class BookControllerBase {
           id: true,
           name: true,
           xxx: true,
-          xxxxx: true,
+
+          xxxxx: {
+            select: {
+              id: true,
+            },
+          },
         },
       });
     } catch (error) {

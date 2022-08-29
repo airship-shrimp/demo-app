@@ -25,6 +25,8 @@ import { DeleteUserArgs } from "./DeleteUserArgs";
 import { UserFindManyArgs } from "./UserFindManyArgs";
 import { UserFindUniqueArgs } from "./UserFindUniqueArgs";
 import { User } from "./User";
+import { BookFindManyArgs } from "../../book/base/BookFindManyArgs";
+import { Book } from "../../book/base/Book";
 import { UserService } from "../user.service";
 
 @graphql.Resolver(() => User)
@@ -134,5 +136,25 @@ export class UserResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [Book])
+  @nestAccessControl.UseRoles({
+    resource: "Book",
+    action: "read",
+    possession: "any",
+  })
+  async books(
+    @graphql.Parent() parent: User,
+    @graphql.Args() args: BookFindManyArgs
+  ): Promise<Book[]> {
+    const results = await this.service.findBooks(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 }

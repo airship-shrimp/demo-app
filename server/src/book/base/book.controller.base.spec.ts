@@ -13,24 +13,20 @@ const existingId = "existingId";
 const CREATE_INPUT = {
   id: "exampleId",
   xxx: "exampleXxx",
-  xxxxx: "exampleXxxxx",
 };
 const CREATE_RESULT = {
   id: "exampleId",
   xxx: "exampleXxx",
-  xxxxx: "exampleXxxxx",
 };
 const FIND_MANY_RESULT = [
   {
     id: "exampleId",
     xxx: "exampleXxx",
-    xxxxx: "exampleXxxxx",
   },
 ];
 const FIND_ONE_RESULT = {
   id: "exampleId",
   xxx: "exampleXxx",
-  xxxxx: "exampleXxxxx",
 };
 
 const service = {
